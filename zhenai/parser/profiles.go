@@ -18,7 +18,9 @@ import (
 const personalProfileRegexPink  = `<div class="m-btn pink"[^>]*>([^<]*)+</div>`
 
 const personalProfileRegexPurple  = `<div class="m-btn purple"[^>]*>([^<]*)+</div>`
-func ParseProfile(contents []byte,name string,gender string)engine.ParseResult  {
+
+var idUrlRe = regexp.MustCompile(`https?://album\.zhenai\.com/u/([\d]+)`)
+func ParseProfile(contents []byte,name string,gender string,url string)engine.ParseResult  {
 	Purple := regexp.MustCompile(personalProfileRegexPurple)
 	submatchPurple := Purple.FindAllSubmatch(contents,-1)
 	Pink := regexp.MustCompile(personalProfileRegexPink)
@@ -46,10 +48,25 @@ func ParseProfile(contents []byte,name string,gender string)engine.ParseResult  
 	Profile.Name = name
 	Profile.Gender = gender
 	result := engine.ParseResult{
-		Requests: nil,
-		Items:    []interface{}{Profile},
+		Items:   []engine.Item{
+			{
+				Id:      ExtractString(url, idUrlRe),
+				Url:     url,
+				Type:    "zhenai",
+				Payload: Profile,
+			},
+		},
 	}
 	return result
+}
+
+func ExtractString(url string,re *regexp.Regexp) string{
+	match := re.FindSubmatch([]byte(url))
+	if len(match)==2{
+		return string(match[1])
+	}else {
+		return ""
+	}
 }
 
 /*

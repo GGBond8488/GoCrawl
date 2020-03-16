@@ -1,7 +1,7 @@
 package main
 
 import (
-	"WebPas/fetcher"
+	"WebPas/zhenai/parser"
 	"fmt"
 	"regexp"
 )
@@ -17,18 +17,20 @@ func main(){
 		//if err!=nil{
 		//	fmt.Println(err)
 		//}
-	fetch, err2 := fetcher.Fetch("http://www.zhenai.com/zhenghun/huanggang")
-	if err2 != nil {
-		fmt.Println(err2)
-		return
-	}
-	const info = `<td width="180"><span class="grayL">性别：</span>([^<]*)+</td>`
+	//fetch, err2 := fetcher.Fetch("http://www.zhenai.com/zhenghun/huanggang")
+	//if err2 != nil {
+	//	fmt.Println(err2)
+	//	return
+	//}
+	//const info = `<td width="180"><span class="grayL">性别：</span>([^<]*)+</td>`
 	//const personalProfileRegexPink  = `<div data-v-8b1eac0c="" class="m-btn pink">([^<]*)+</div>`
 	//<div class="m-btn purple" data-v-8b1eac0c="">离异</div>
 	//const personalProfileRegexPurple  = `<div class="m-btn purple"[^>]*>([^<]*)+</div>`
-	Purple := regexp.MustCompile(info)
-	submatchPurple := Purple.FindAllSubmatch(fetch,-1)
-
-	fmt.Printf("%s \n",submatchPurple)
+	//Purple := regexp.MustCompile(info)
+	//submatchPurple := Purple.FindAllSubmatch(fetch,-1)
+	var idUrlRe = regexp.MustCompile(`https://album\.zhenai\.com/u/([\d]+)`)
+	finds := parser.ExtractString("https://album.zhenai.com/u/1381240850",idUrlRe)
+	fmt.Println(finds)
+	//fmt.Printf(parser.ExtractString("https://album.zhenai.com/u/1381240850",idUrlRe))
 
 }

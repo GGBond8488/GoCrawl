@@ -1,6 +1,9 @@
 package model
 
+import "encoding/json"
+
 type PersonProfile struct {
+
 
 	Name string
 	Gender string
@@ -24,4 +27,19 @@ type PersonProfile struct {
 	Child string
 
 
+}
+
+type Models struct {
+	Id string
+	Url string
+}
+
+func FromJsonObject(o interface{})(PersonProfile,error)  {
+	var person PersonProfile
+	s,err := json.Marshal(0)
+	if err != nil{
+		return person,err
+	}
+	err = json.Unmarshal(s,&person)
+	return person,err
 }

@@ -3,7 +3,7 @@ package engine
 type ConEngine struct {
 	Scheduler Scheduler
 	WorkerCount int
-	ItemChan chan interface{}
+	ItemChan chan Item
 }
 type Scheduler interface {
 	ReadyNotified

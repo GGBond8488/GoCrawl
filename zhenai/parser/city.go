@@ -19,11 +19,12 @@ func ParseCity(contents []byte)engine.ParseResult  {
 	for i,item := range matchs {
 		name := string(item[2])
 		gender := string(gendermatchs[i][1])
+		url := string(item[1])
 		result.Requests = append(result.Requests,
 			engine.Request{
-			Url:        string(item[1]),
+			Url:        url,
 			ParserFunc: func(bytes []byte) engine.ParseResult {
-				return ParseProfile(bytes,name,gender)
+				return ParseProfile(bytes,name,gender,url)
 			},
 		})
 	}

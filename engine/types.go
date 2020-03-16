@@ -2,7 +2,7 @@ package engine
 
 type ParseResult struct {
 	Requests []Request
-	Items []interface{}
+	Items []Item
 }
 
 type Request struct {
@@ -12,4 +12,11 @@ type Request struct {
 
 func NilParser([]byte)ParseResult  {
 	return ParseResult{}
+}
+
+type Item struct {
+	Id string
+	Url string
+	Type string
+	Payload interface{}
 }
