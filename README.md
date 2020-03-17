@@ -1,6 +1,6 @@
 ## 总结
 
-![](D:\GoProject\WebPas\img\image-20200317104422870.png)
+![](img\image-20200317104422870.png)
 
 ### Version1（单任务版）
 
@@ -12,13 +12,13 @@
 
 确定网页结构，以及爬虫结构
 
-![](D:\GoProject\WebPas\img\image-20200317105510576.png)
+![](img\image-20200317105510576.png)
 
 
 
 具体的工作流程为：给定一个起始网址，加入任务队列，engine拿去url将任务发给Fetcher拉取url对应网页，调用对应层级的解析器解析数据并把新的url加入任务队列。（这里利用go的函数特性，将对应的解析器与request封装在一起加入队列，可以非常方便的调用对应的解析器）
 
-![](D:\GoProject\WebPas\img\image-20200317105719953.png)
+![](img\image-20200317105719953.png)
 
 #### step3 编码测试
 
@@ -36,7 +36,7 @@
 
 任务与解析器是封装在一个结构体，可以直接将两个操作一起放入goroutine封装成一个worker
 
-![](D:\GoProject\WebPas\img\image-20200317111022244.png)
+![](img\image-20200317111022244.png)
 
 ```go
 func Worker(r Request) (ParseResult,error) {
@@ -52,7 +52,7 @@ func Worker(r Request) (ParseResult,error) {
 
 所以并发版的的设计为：
 
-![](D:\GoProject\WebPas\img\image-20200317120551647.png)
+![](img\image-20200317120551647.png)
 
 增加一个调度器，管理任务的分发（如果不增加一个Scheduler那么engine和Worker就还是串行的了）
 
@@ -164,7 +164,7 @@ func (q *QueueScheduler)WorkerReady(w chan engine.Request)  {
 
 这里可以设计两个队列，一个存放需要发出的Request,一个存放接收Request的Worker
 
-![](D:\GoProject\WebPas\img\image-20200317130709865.png)
+![](img\image-20200317130709865.png)
 
 ```go
 func (q *QueueScheduler)Run() {
@@ -248,7 +248,7 @@ func (e *ConEngine) Run(seeds ...Request) {
 }
 ```
 
-![](D:\GoProject\WebPas\img\image-20200317135041399.png)
+![](img\image-20200317135041399.png)
 
 
 
