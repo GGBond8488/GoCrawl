@@ -19,7 +19,7 @@ const personalProfileRegexPink  = `<div class="m-btn pink"[^>]*>([^<]*)+</div>`
 
 const personalProfileRegexPurple  = `<div class="m-btn purple"[^>]*>([^<]*)+</div>`
 
-var idUrlRe = regexp.MustCompile(`https?://album\.zhenai\.com/u/([\d]+)`)
+var idUrlRe = regexp.MustCompile(`https://album\.zhenai\.com/u/([\d]+)`)
 func ParseProfile(contents []byte,name string,gender string,url string)engine.ParseResult  {
 	Purple := regexp.MustCompile(personalProfileRegexPurple)
 	submatchPurple := Purple.FindAllSubmatch(contents,-1)

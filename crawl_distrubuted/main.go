@@ -8,6 +8,7 @@ import (
 	"WebPas/zhenai/parser"
 )
 
+//分布式
 func main(){
 	itemChan, err := client.ItemSaver(config.HostAndPort)
 	if err != nil {
