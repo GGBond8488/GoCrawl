@@ -1,16 +1,17 @@
-package presist
+package main
 
 import (
+	"WebPas/crawl_distrubuted/rpc_support"
 	"WebPas/engine"
 	"WebPas/engine/model"
-	"context"
-	"encoding/json"
-	"fmt"
-	"github.com/olivere/elastic/v7"
 	"testing"
+	"time"
 )
 
-func TestSave(t *testing.T) {
+func TestItemSaver(t *testing.T)  {
+	//start itemSaver server
+	//start client
+	//call
 	expectedProfile := model.PersonProfile{
 
 		Marriage:   "离异",
@@ -37,25 +38,16 @@ func TestSave(t *testing.T) {
 		Type:    "zhenai",
 		Payload: expectedProfile,
 	}
-	client, err := elastic.NewClient(elastic.SetSniff(false),
-		elastic.SetURL("http://47.98.246.49:9200"))
-	if err != nil{
-		panic(err)
-	}
-	err = Save(expected,client,Index)
-	if err != nil{
-		panic(err)
-	}
+	go serveRpc(":1234","test1")
 
-
-	service ,err := client.Get().Index("dating_profile").Type(expected.Type).Id(expected.Id).Do(context.Background())
-	if err != nil{
+	time.Sleep(5*time.Second)
+	client,err := rpc_support.NewClient(":1234")
+	if err != nil {
 		panic(err)
 	}
-	var actual engine.Item
-	err = json.Unmarshal(service.Source,&actual)
-	if err != nil{
-		panic(err)
+	result := ""
+	err = client.Call("ItemSaverService.Save",expected,&result)
+	if err != nil || result != "ok"{
+		t.Errorf("result: %s",result)
 	}
-	fmt.Println(actual)
 }
