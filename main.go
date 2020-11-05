@@ -8,7 +8,7 @@ import (
 )
 
 func main(){
-	itenChan, err := presist.ItemSaver()
+	itemChan, err := presist.ItemSaver()
 	if err != nil {
 		panic(err)
 	}
@@ -16,7 +16,7 @@ func main(){
 
 		Scheduler:   &Scheduler.QueueScheduler{},
 		WorkerCount: 100,
-		ItemChan: itenChan,
+		ItemChan: itemChan,
 	}
 	e.Run(engine.Request{
 		Url:        "http://www.zhenai.com/zhenghun",

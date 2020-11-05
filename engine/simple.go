@@ -32,8 +32,8 @@ func Worker(r Request) (ParseResult,error) {
 	log.Printf("Fetching url:%v",r.Url)
 	body , err := fetcher.Fetch(r.Url)
 	if err!=nil{
-		log.Fatal("Fetcher err:",r.Url,err)
-		return ParseResult{},nil
+		log.Println("Fetcher err:",r.Url,err)
+		return ParseResult{},err
 	}
 	return r.ParserFunc(body),nil
 }

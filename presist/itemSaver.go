@@ -32,7 +32,7 @@ func ItemSaver()(chan engine.Item ,error){
 	return out,nil
 }
 
-const Host  = "http://47.98.246.49:9200"
+const Host  = "http://127.0.0.1:9200"
 const Index  = "dating_profile"
 
 func Save(item engine.Item,client *elastic.Client,index string)error{

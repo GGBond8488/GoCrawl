@@ -29,7 +29,11 @@ func Fetch(url string)([]byte,error)  {
 	}
 	defer resp.Body.Close()
 	if resp.StatusCode != http.StatusOK{
-		return nil,fmt.Errorf("Error:status error:%d ",resp.StatusCode)
+		if resp.StatusCode == http.StatusAccepted{
+			resp, err = (&http.Client{}).Do(req)
+		}else {
+			return nil,fmt.Errorf("Error:status error:%d ",resp.StatusCode)
+		}
 	}
 
 	respReader := bufio.NewReader(resp.Body)
